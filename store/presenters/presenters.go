@@ -102,6 +102,61 @@ func (a *AccountBalance) SetID(value string) error {
 	return nil
 }
 
+// ConfigWhitelist TODO...
+type ConfigWhitelist struct {
+	LogLevel               store.LogLevel  `json:"logLevel"`
+	RootDir                string          `json:"root"`
+	Port                   string          `json:"chainlinkPort"`
+	GuiPort                string          `json:"guiPort"`
+	BasicAuthUsername      string          `json:"username"`
+	EthereumURL            string          `json:"ethUrl"`
+	ChainID                uint64          `json:"ethChainId"`
+	ClientNodeURL          string          `json:"clientNodeUrl"`
+	TxMinConfirmations     uint64          `json:"txMinConfirmations"`
+	TaskMinConfirmations   uint64          `json:"taskMinConfirmations"`
+	EthGasBumpThreshold    uint64          `json:"ethGasBumpThreshold"`
+	EthGasBumpWei          *big.Int        `json:"ethGasBumpWei"`
+	EthGasPriceDefault     *big.Int        `json:"ethGasPriceDefault"`
+	LinkContractAddress    string          `json:"linkContractAddress"`
+	MinimumContractPayment *big.Int        `json:"minimumContractPayment"`
+	OracleContractAddress  *common.Address `json:"oracleContractAddress"`
+	DatabasePollInterval   store.Duration  `json:"databasePollInterval"`
+}
+
+// GetID generates a new ID for jsonapi serialization.
+func (c ConfigWhitelist) GetID() string {
+	return utils.NewBytes32ID()
+}
+
+// SetID is used to conform to the UnmarshallIdentifier interface for
+// deserializing from jsonapi documents.
+func (c *ConfigWhitelist) SetID(value string) error {
+	return nil
+}
+
+// NewConfigWhitelist TODO...
+func NewConfigWhitelist(config store.Config) ConfigWhitelist {
+	return ConfigWhitelist{
+		LogLevel:             config.LogLevel,
+		RootDir:              config.RootDir,
+		Port:                 config.Port,
+		GuiPort:              config.GuiPort,
+		BasicAuthUsername:    config.BasicAuthUsername,
+		EthereumURL:          config.EthereumURL,
+		ChainID:              config.ChainID,
+		ClientNodeURL:        config.ClientNodeURL,
+		TxMinConfirmations:   config.TxMinConfirmations,
+		TaskMinConfirmations: config.TaskMinConfirmations,
+		EthGasBumpThreshold:  config.EthGasBumpThreshold,
+		EthGasBumpWei:        &config.EthGasBumpWei,
+		EthGasPriceDefault:   &config.EthGasPriceDefault,
+		// LinkContractAddress:  config.LinkContractAddress,
+		MinimumContractPayment: &config.MinimumContractPayment,
+		OracleContractAddress:  config.OracleContractAddress,
+		DatabasePollInterval:   config.DatabasePollInterval,
+	}
+}
+
 // JobSpec holds the JobSpec definition and each run associated with that Job.
 type JobSpec struct {
 	models.JobSpec

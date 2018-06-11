@@ -168,6 +168,21 @@ type Duration struct {
 	time.Duration
 }
 
+// MarshalText returns the byte slice of the duration in nanoseconds
+func (d Duration) MarshalText() ([]byte, error) {
+	// return json.Marshal(d.Duration.String())
+	// b := byte[](d.Duration.String())
+	b := []byte(d.Duration.String())
+	return b, nil
+}
+
+// UnmarshalText parses the time.Duration and assigns it
+func (d *Duration) UnmarshalText(text []byte) error {
+	td, err := time.ParseDuration((string)(text))
+	d.Duration = td
+	return err
+}
+
 // ForGin keeps Gin's mode at the appropriate level with the LogLevel.
 func (ll LogLevel) ForGin() string {
 	switch {
