@@ -5,19 +5,22 @@ import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from '@mate
 import theme from './src/theme' // Custom Material UI theme
 
 export default {
+  webpack: (config, args) => {
+    // console.log('=========== CONFIG.plugins: %o', config.plugins['UglifyJsPlugin'])
+    // console.log('=========== CONFIG.plugins: %o', config.plugins.constructor)
+    config.plugins = config.plugins.filter((p) => p.constructor.name !== 'UglifyJsPlugin')
+
+    return config
+  },
   getSiteData: () => ({
     title: 'Chainlink'
   }),
   getRoutes: async () => {
     return [
-      {
-        path: '/',
-        component: 'src/containers/Jobs'
-      },
-      {
-        is404: true,
-        component: 'src/containers/404'
-      }
+      {path: '/', component: 'src/containers/Jobs'},
+      {path: '/job_specs/:jobSpecId'},
+      {path: '/job_specs/:jobSpecId/runs'},
+      {is404: true, component: 'src/containers/404'}
     ]
   },
   renderToHtml: (render, Comp, meta) => {
