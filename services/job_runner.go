@@ -153,7 +153,7 @@ func startTask(
 	}
 
 	minConfs := utils.MaxUint64(
-		store.Config.TaskMinConfirmations,
+		store.Config.MinOutgoingConfirmations,
 		tr.Task.Confirmations,
 		adapter.MinConfs())
 
